@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+ <p>Get songs</p>
+ <input id="number" type="number" >
+ <select id="selection">
+
+     <option>All</option>
+     <option>Pop</option>
+     <option>Blues</option>
+     <option>Rock</option>
+ </select>
+ <input type="button" id="mix" value="Mix">
+<table>
+    <tbody id="tbody">
+
+    </tbody>
+</table>
+ <script>
+
+     let mixBtn=document.getElementById("mix")
+     window.onload=function () {
+         mixBtn.addEventListener("click", function () {
+             let selection = document.getElementById("selection").value;
+             let number = document.getElementById("number").value;
+             console.log(number)
+             var data = '[{"artist":"Marc", "title":"TheWorks", "genre":"Pop", "releaseYear":"2022"}, {"artist":"James", "title":"Jinx", "genre":"Rock", "releaseYear":"2021"},{"artist":"Jayne", "title":"Roll", "genre":"Blues", "releaseYear":"2023"},{"artist":"Alfie", "title":"MegaGiga", "genre":"Pop", "releaseYear":"2019"},{"artist":"Rick", "title":"Extract", "genre":"Rock", "releaseYear":"2028"},{"artist":"William", "title":"Extract", "genre":"Blues", "releaseYear":"2026"}]'
+             var newData = JSON.parse(data)
+let counter=0;
+             let tabela = document.getElementById("tbody")
+             for (let i = 0; i <newData.length; i++) {
+if (counter==parseInt(number)){
+    break;
+}
+                 var genre = newData[i].genre
+                if (selection!="All")
+                 if(genre != selection){
+                     continue;}
+               counter++;
+                 console.log("test")
+                 var artist = newData[i].artist;
+                 var title = newData[i].title
+                 var genre = newData[i].genre
+                 var releaseYear = newData[i].releaseYear
+
+                 var row = document.createElement("tr");
+                 var cell1 = document.createElement("td")
+                 var cell2 = document.createElement("td")
+                 var cell3 = document.createElement("td")
+                 var cell4 = document.createElement("td")
+                 var cell5 = document.createElement("td")
+                 cell1.innerText = artist
+                 cell2.innerText = title
+                 cell3.innerText = genre
+                 cell4.innerText = releaseYear;
+                 row.append(cell1)
+                 row.append(cell2)
+                 row.append(cell3)
+                 row.append(cell4)
+                 tabela.append(row);
+             }
+
+         })
+     }
+ </script>
+</body>
+</html>

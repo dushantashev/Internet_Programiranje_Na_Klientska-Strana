@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<label>
+<input id="left" type="button" value="<">
+<input id="right" type="button" value=">">
+</label>
+<script>
+    let colors="red,blue,green";
+    let size="50,20,70";
+    let leftButton=document.getElementById("left")
+    let rightButton=document.getElementById("right")
+    let i=0;
+    leftButton.addEventListener("click",function (){
+
+        var existingSquare=document.querySelectorAll(".square");
+        existingSquare.forEach(function (sq){
+            sq.remove();
+        })
+
+            var square=document.createElement("div");
+            square.style.height=size.split(",")[i]+"px";
+            square.style.width=size.split(",")[i]+"px";
+            square.style.background=colors.split(",")[i];
+            square.classList.add("square");
+            document.body.append(square);
+            if (i==2){i=0}
+            else
+i++;
+    })
+    rightButton.addEventListener("click",function (){
+        var existingSquare=document.querySelectorAll(".square");
+        existingSquare.forEach(function (sq){
+            sq.remove();})
+        var square=document.createElement("div");
+        square.style.height=size.split(",")[i]+"px";
+        square.style.width=size.split(",")[i]+"px";
+        square.style.background=colors.split(",")[i];
+        square.classList.add("square");
+        document.body.append(square);
+        if (i==0){i=2}
+        else
+        i--;
+
+
+    })
+
+</script>
+</body>
+</html>

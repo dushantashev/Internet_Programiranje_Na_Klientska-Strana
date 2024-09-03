@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz</title>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+
+</head>
+<body>
+
+<p id="question"></p>
+<div id="answers"></div>
+<button id="btn" onclick="next()">Next</button>
+
+<script>
+    let data = '[{"Question":"What is the capital city of the UK?","Answers":[{"Option":"London","Correct":true},{"Option":"Paris","Correct":false},{"Option":"Skopje","Correct":false},{"Option":"Dublin","Correct":false}]},{"Question":"What is the largest country in the world by area?","Answers":[{"Option":"Russia","Correct":true},{"Option":"Macedonia","Correct":false},{"Option":"Brazil","Correct":false},{"Option":"China","Correct":false}]},{"Question":"What is the primary gas that makes up the Earth’s atmosphere?","Answers":[{"Option":"Oxygen","Correct":false},{"Option":"Nitrogen","Correct":true},{"Option":"Carbon dioxide","Correct":false}]},{"Question":"In which country was the game of chess invented?","Answers":[{"Option":"Greece","Correct":false},{"Option":"China","Correct":false},{"Option":"India","Correct":true}]},{"Question":"What is the name of the main character in the movie The Matrix?","Answers":[{"Option":"Niall","Correct":false},{"Option":"Neo","Correct":true},{"Option":"Neil","Correct":false}]}]';
+let obj=JSON.parse(data)
+    let counter=0;
+let myDiv=[]
+
+
+    function next() {
+
+        let div=document.createElement("div")
+        if (counter<5){
+        let questionParagraf = document.createElement("p")
+        let answersElem=document.createElement("div")
+        questionParagraf.innerHTML = obj[counter].Question
+
+       answersElem.innerHTML=""
+
+        obj[counter].Answers.forEach((answer,index)=>{
+            let label=document.createElement("label")
+            label.innerHTML=answer.Option;
+            let radio=document.createElement("input")
+            radio.setAttribute("type","radio")
+            radio.setAttribute("name","qn")
+            radio.setAttribute("value",answer.Correct)
+            radio.classList.add("radio")
+            label.append(radio)
+            answersElem.append(label)
+            answersElem.append(document.createElement("br"))
+            div.append(questionParagraf)
+            div.append(answersElem)
+            myDiv.push({element:div})
+            div.id="divv"
+            div.style.position="absolute"
+            anime({
+                targets:div,
+                left:400,
+                duration:2000,
+                easing:"linear",
+
+            })
+            document.body.append(div)
+        })}
+
+        counter++
+        if (counter===6) {
+            let btn = document.getElementById("btn")
+            btn.disabled = true
+            alert("Imate " + points + " tocni odgovori")
+        }
+    }
+    let points=0;
+    function radioBtn(){
+        let btns=document.getElementsByClassName("radio")
+  for (let i=0;i<btns.length;i++){
+     if(btns[i].checked && btns[i].value==="true"){
+          points++;
+          console.log(points)
+      }
+  }
+
+    }
+
+    document.querySelector("button").onclick=function (){
+        let div=document.getElementById("divv")
+anime({
+    targets:div,
+    left:800,
+    duration: 1000,
+    easing:"linear",
+    complete: function () {
+        div.remove();
+
+    }
+})
+        radioBtn()
+        next()
+    }
+    window.onclick=next()
+</script>
+</body>
+</html>

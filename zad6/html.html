@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        label{
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+<label>Name and surname<input id="nameSurname" type="text"></label>
+<label>Email<input id="email" type="text"></label>
+<label>Age<input id="age" type="text"></label>
+<label>Username<input id="userName" type="text"></label>
+<label>Password<input id="passsword" type="password"></label>
+    <label>Role<select id="role">
+        <option>Teacher</option>
+        <option>Student</option>
+    </select></label>
+        <label>Add <input id="add" type="button" value="Add"></label>
+
+    <table id="table">
+        <tbody>
+        <tr>
+            <td>Name</td>
+            <td>Username</td>
+            <td>Email</td>
+            <td>Age</td>
+            <td>Role</td>
+        </tr>
+
+        </tbody>
+    </table>
+<p id="teacherActive">Active teachers: </p>
+
+<script>
+
+    let counter=0;
+    let myList=[];
+    let add=document.getElementById("add");
+    add.addEventListener("click",function (){
+        let userName=document.getElementById("userName").value;
+        let name=document.getElementById("nameSurname").value;
+        let email=document.getElementById("email").value;
+        let age=document.getElementById("age").value;
+        let role=document.getElementById("role").value;
+        let pw=document.getElementById("passsword").value;
+
+        if (name==""||userName===""|| email==="" || age==="" || role===""){
+    alert("Ne se vneseni site vrednosti")
+            console.log(pw.length);
+            return;
+        }
+if (pw.length<10||!containsNumber(pw) || !containsLargeLetter(pw)){
+    alert("pw ne korekten");
+    return;
+}
+if (age<18 && role==="Teacher"){
+    alert("Nema godini za nastavnik")
+    return;
+}
+        let activeTeachers5=document.getElementById("teacherActive");
+
+        if (myList.includes(userName)){
+            alert("Go ima usernameot")
+        }
+        else {
+            myList.push(userName)
+            let row = document.createElement("tr");
+            let cell1 = document.createElement("td");
+            let cell2 = document.createElement("td");
+            let cell3 = document.createElement("td");
+            let cell4 = document.createElement("td");
+            let cell5 = document.createElement("td");
+
+            cell1.innerText = document.getElementById("nameSurname").value;
+            cell2.innerText = document.getElementById("userName").value;
+            cell3.innerText = document.getElementById("email").value;
+            cell4.innerText = document.getElementById("age").value;
+            cell5.innerText = document.getElementById("role").value;
+            const cell6 = document.createElement("button");
+            cell6.textContent = "Hire"
+            cell6.className = "hire"
+            cell6.addEventListener("click", () => {
+                row.style.background = "grey";
+                counter--;
+                activeTeachers5.innerText="Active teachers: "+counter;
+            });
+            row.append(cell1)
+            row.append(cell2)
+            row.append(cell3)
+            row.append(cell4)
+            row.append(cell5)
+            let table = document.getElementById("table")
+            if (role == "Teacher") {
+                row.style.background = "green";
+                row.append(cell6);
+                counter++;
+
+            } else {
+                row.style.background = "red";
+            }
+            table.append(row);
+        }
+
+        activeTeachers5.innerText="Active teachers: "+counter;
+    })
+    function containsNumber(str){
+        const regex=/\d/;
+        return regex.test(str);
+    }
+    function containsLargeLetter(str){
+        const regex=/[A-Z]/
+        return regex.test(str);
+    }
+    const elements=document.querySelectorAll(".hire");
+    elements.forEach(element=>{
+        console.log(element)
+    })
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        label{
+            display: flex;
+            margin-top: 10px;
+            text-align: right;
+          justify-content: center;
+        }
+        .prvDiv{
+            margin: 10px;
+            width: 200px;
+            height: 500px;
+            background-color: red;
+        }
+        .podDiv{
+        display: flex;
+            margin: 20px 10px;
+            flex-direction: column;
+            justify-content: center;
+        }
+        #tickets{
+            display: flex;
+        }
+        @keyframes fade-out {
+            from{
+               opacity: 1;
+            }
+            to{
+                opacity: 0;
+            }
+        }
+        .fade-out{
+            animation: fadeOut 5s forwards;
+
+        }
+    </style>
+</head>
+<body>
+<form>
+    <label>Name: <input id="name" type="text"></label>
+    <label>Surname:  <input id="surname" type="text"></label>
+    <label>ID: <input id="id" type="text"></label>
+    <label> Profit: <input id="profit" type="number"></label>
+    <label><input type="button" value="Save" id="save"></label>
+</form>
+<div class="container">
+    <h1>Tickets</h1>
+    <div id="tickets">
+ <div class="prvDiv">
+     <div class="podDiv">
+         <p>Сметка број:13562</p>
+         <p>Име: Петар</p>
+         <p>Презиме: Арсов</p>
+         <p>Id: kfsdmfksd3242sdaDSS</p>
+         <p>Промет: 4000</p>
+         <input type="button"  value="Plati">
+     </div>
+ </div>
+        <div class="prvDiv">
+            <div class="podDiv">
+                <p>Сметка број:13562</p>
+                <p>Име: Петар</p>
+                <p>Презиме: Арсов</p>
+                <p>Id: kfsdmfksd3242sdaDSS</p>
+                <p>Промет: 4000</p>
+                <input type="button" id="btn" value="Plati">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    JsonUnPack()
+    function JsonUnPack() {
+        let obj = [
+            {
+                "name": "DUshan",
+                "surname": "Ташев",
+                "id": 221099,
+                "profit": 3000
+            },
+            {
+                "name": "Павлинче",
+                "surname": "Ташева",
+                "id": 221098,
+                "profit": 3001
+            }
+        ]
+
+
+        for (let i = 0; i < obj.length; i++) {
+
+            let name = obj[i].name
+
+            let surname = obj[i].surname
+            let id = obj[i].id
+            let profit = obj[i].profit
+            let ticket = document.getElementById("tickets");
+            let prvDiv = document.createElement("div")
+            let podDiv = document.createElement("div")
+            prvDiv.classList.add("prvDiv");
+            podDiv.classList.add("podDiv");
+            let name_p = document.createElement("p")
+            let surname_p = document.createElement("p")
+            let id_p = document.createElement("p")
+            let profit_p = document.createElement("p")
+            let broj_smetka = document.createElement("p")
+            let btn = document.createElement("button");
+            btn.setAttribute("value", "Plati")
+            btn.innerText = "PLati"
+            btn.setAttribute("onclick", "plati(this)")
+            broj_smetka.innerText = "Сметка број: " + randomNumber();
+            name_p.innerText = "Име: " + name
+            surname_p.innerText = "Презиме: " + surname
+            id_p.innerText = "ID: " + id
+            profit_p.innerText = "Профит: " + profit
+
+            podDiv.append(broj_smetka)
+            podDiv.append(name_p)
+            podDiv.append(surname_p)
+            podDiv.append(id_p)
+            podDiv.append(profit_p)
+            podDiv.append(btn)
+            prvDiv.append(podDiv)
+            if (profit > 5000) {
+                prvDiv.style.background = "green";
+            }
+            ticket.append(prvDiv)
+        }
+    }
+    let save=document.getElementById("save")
+    save.addEventListener("click",function (){
+        let ticket=document.getElementById("tickets")
+        let name=document.getElementById("name").value
+        let surname=document.getElementById("surname").value
+        let id=document.getElementById("id").value
+        let profit=document.getElementById("profit").value
+
+        if (!upperLetter(id) || !number(id)){
+            alert("Netocen Id")
+            return 0;
+        }
+        let prvDiv=document.createElement("div")
+        let podDiv=document.createElement("div")
+        prvDiv.classList.add("prvDiv");
+        podDiv.classList.add("podDiv");
+        let name_p=document.createElement("p")
+        let surname_p=document.createElement("p")
+        let id_p=document.createElement("p")
+        let profit_p=document.createElement("p")
+        let broj_smetka=document.createElement("p")
+        let btn=document.createElement("button");
+        btn.setAttribute("value","Plati")
+        btn.innerText="PLati"
+        btn.setAttribute("onclick","plati(this)")
+        broj_smetka.innerText="Сметка број: "+randomNumber();
+        name_p.innerText="Име: "+ name
+        surname_p.innerText="Презиме: "+ surname
+        id_p.innerText="ID: "+id
+        profit_p.innerText="Профит: "+profit
+
+        podDiv.append(broj_smetka)
+        podDiv.append(name_p)
+        podDiv.append(surname_p)
+        podDiv.append(id_p)
+        podDiv.append(profit_p)
+        podDiv.append(btn)
+        prvDiv.append(podDiv)
+        if(profit>5000){
+            prvDiv.style.background="green";
+        }
+        ticket.append(prvDiv)
+    })
+    function number(id){
+        let str= id.match(/\d/);
+        return str!=null
+    }
+    function upperLetter(id){
+        let str=id.match(/[A-Z]/g)
+        return str && str.length>=3
+    }
+    function randomNumber(){
+        return Math.floor(Math.random()*100000)
+    }
+    function plati(divv){
+        console.log("Dsfsdfs")
+        divv.classList.add("fade-out")
+
+    divv.parentNode.parentNode.remove();
+
+
+
+
+
+    }
+</script>
+</body>
+</html>

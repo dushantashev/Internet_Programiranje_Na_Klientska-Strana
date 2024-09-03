@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        label {
+            display: flex;
+        }
+    </style>
+    <title>Title</title>
+</head>
+<body>
+<label>Text:<textarea id="textarea"></textarea></label>
+<label>Delimiter:<input type="text" id="text"></label>
+<label><input type="button" id="create" value="Create"></label>
+<label><table>
+    <thead id="thead">
+
+    </thead>
+    <tbody id="tbody">
+
+    </tbody>
+</table>
+</label>
+<script>
+    let createBtn=document.getElementById("create");
+    createBtn.addEventListener("click",function (){
+        let delimiter=document.getElementById("text").value
+        let textArea=document.getElementById("textarea").value
+        let tabela=document.getElementById("thead");
+        let redovi=textArea.split("\n");
+        for (let i=0;i<redovi.length;i++){
+           let zborovi=redovi[i].split(delimiter)
+
+            // if (i==0)
+            //     let headRow=document.createElement("tr")
+            // else
+                let bodyRow=document.createElement("tr")
+
+            for (let j=0;j<zborovi.length;j++){
+                // if (i==0){
+                //     let cell=document.createElement("td");
+                //     console.log("test")
+                //     cell.innerText=zborovi[j]
+                //     headRow.append(cell)
+                //
+                // }
+                // else {
+                    let cell2=document.createElement("td")
+                    cell2.innerText=zborovi[j]
+
+                    bodyRow.append(cell2)
+                // }
+            }
+            // if (i==0)
+            // tabela.append(headRow)
+            // else
+            bodyRow.setAttribute("onclick","kliknime(this)")
+            bodyRow.setAttribute("id",i)
+                tabela.append(bodyRow)
+
+        }
+    })
+    // window.onload=document.getElementById("tbody").addEventListener("click",function (element) {
+    //     console.log(element.target.parentNode)
+    // })
+    function kliknime(element){
+        let delimiter2=document.getElementById("text").value;
+        let row=element.id
+
+        console.log(row)
+        let textarea=document.getElementById("textarea").value;
+        let redoviTextArea=textarea.split("\n");
+        textarea="";
+        for (let i=0;i<redoviTextArea.length;i++){
+if (row==i){
+  continue;
+}
+textarea+=redoviTextArea[i]+"\n";
+
+        }
+//         console.log(row)
+        element.remove();
+        console.log(textarea)
+
+    }
+</script>
+
+<!--name.surename.index-->
+<!--dule.tashev.221099-->
+<!--dt.das.23432-->
+
+</body>
+</html>

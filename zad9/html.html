@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .prv
+        {
+            padding: 10px;
+        }
+        label
+        {
+            width: 200px;
+            display: inline-block;
+        }
+        #tabela,th,td
+        {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        #lista
+        {
+            position: absolute;
+            left: 680px;
+            top: 27px;
+        }
+
+    </style>
+</head>
+<body>
+<script>
+    var data = '[{"title":"FCSE announcement", "post":"FSCE is starting with classes this semestar from 15th Feb.", "type":"Free", "category":"Education", "published":true},{"title":"What is ann NFT", "post":"An NFT, which stands for non-fungible token, is a unique unit of data employing technology that allows digital content to become logged and authenticated on cryptocurrency blockchains", "type":"Free", "category":"Science", "published": false}]'
+ var newData=JSON.parse(data);
+    var counter=0;
+    window.onload=function () {
+        for (i=0;i<newData.length;i++){
+            var title=newData[i].title
+            var post=newData[i].post
+            var type=newData[i].type
+            var category=newData[i].category
+            var novTitle="finki.ukim.mk/"+title.toLowerCase().split(" ").join("-")
+            var votabela=document.getElementById("tuka");
+            var red=document.createElement("tr");
+            var cell1=document.createElement("td")
+            var cell2=document.createElement("td")
+            var cell3=document.createElement("td")
+            var cell4=document.createElement("td")
+            var cell5=document.createElement("td")
+        cell1.innerText=title;
+            cell2.innerText=post
+            cell3.innerText=novTitle
+            cell4.innerText=type
+            cell5.innerText=category
+            red.append(cell1)
+            red.append(cell2)
+            red.append(cell3)
+            red.append(cell4)
+            red.append(cell5)
+            votabela.append(red)
+        }
+    }
+</script>
+
+
+<div class="prv">
+    <h1>Post Details</h1>
+    <div>
+        <label>Title</label>
+        <input type="text" id="naslov">
+    </div>
+    <div>
+        <label>Post</label>
+        <textarea id="content"></textarea>
+    </div>
+    <div>
+        <label>Content type</label>
+        <label style="display: inline ">Free</label>
+        <input type="radio" name="same" id="free">
+        <label style="display: inline ">Paid</label>
+        <input type="radio" name="same" id="paid">
+    </div>
+    <div>
+        <label>Category</label>
+        <select id="opcii">
+            <option></option>
+            <option>Science</option>
+            <option>Education</option>
+            <option>Industry</option>
+        </select>
+    </div>
+    <div>
+        <button onclick="importPost()">Import post</button>
+    </div>
+    <h2>Published posts <span id="brojac">0</span></h2>
+    <table id="tabela">
+        <thead>
+        <th>Title</th>
+        <th>Post</th>
+        <th>Link</th>
+        <th>Type</th>
+        <th>Category</th>
+        <th>Actions</th>
+        </thead>
+        <tbody id="tuka">
+
+        </tbody>
+    </table>
+
+</div>
+<div id="lista">
+    <h2>Removed links</h2>
+    <ul id="links">
+
+    </ul>
+</div>
+</body>
+</html>

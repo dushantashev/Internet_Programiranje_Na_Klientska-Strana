@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+
+</head>
+<body>
+<button id="btn" onclick="start()">Next</button>
+<script>
+    let data = '[{"Question":"What is the capital city of the UK?","Answers":[{"Option":"London","Correct":true},{"Option":"Paris","Correct":false},{"Option":"Skopje","Correct":false},{"Option":"Dublin","Correct":false}]},{"Question":"What is the largest country in the world by area?","Answers":[{"Option":"Russia","Correct":true},{"Option":"Macedonia","Correct":false},{"Option":"Brazil","Correct":false},{"Option":"China","Correct":false}]},{"Question":"What is the primary gas that makes up the Earth’s atmosphere?","Answers":[{"Option":"Oxygen","Correct":false},{"Option":"Nitrogen","Correct":true},{"Option":"Carbon dioxide","Correct":false}]},{"Question":"In which country was the game of chess invented?","Answers":[{"Option":"Greece","Correct":false},{"Option":"China","Correct":false},{"Option":"India","Correct":true}]},{"Question":"What is the name of the main character in the movie The Matrix?","Answers":[{"Option":"Niall","Correct":false},{"Option":"Neo","Correct":true},{"Option":"Neil","Correct":false}]}]';
+    let obj=JSON.parse(data)
+    let counter=0;
+    function next(){
+if (counter<5) {
+    let div = document.createElement("div")
+
+    div.style.position = "absolute"
+    div.id = "ds"
+    let p = document.createElement("p")
+    p.innerHTML = obj[counter].Question
+    let answers = obj[counter].Answers
+    div.append(p)
+    document.body.append(div)
+    answers.forEach((answer) => {
+        let label = document.createElement("label")
+        let radio = document.createElement("input")
+        radio.setAttribute("type", "radio")
+        radio.setAttribute("value", answer.Correct)
+        radio.setAttribute("name", "qn")
+
+        label.innerHTML = answer.Option
+        label.append(radio)
+        div.append(label)
+    })
+    anime({
+        targets: div,
+        left: 400,
+        duration: 2000,
+        easing: "linear",
+
+    })
+}
+        counter++
+if (counter==6){
+    alert(points)
+}
+
+    }
+
+    let points=0;
+    function calculatePoints(){
+        let radio=document.querySelectorAll("input")
+        radio.forEach((radio)=>{
+         if (radio.checked && radio.value==="true"){
+             points++;
+             console.log(points)
+         }
+        })
+    }
+    function start(){
+        let div=document.getElementById("ds");
+        anime({
+            targets:div,
+            left:1000,
+            duration:2000,
+            easing:"linear",
+            complete:function () {
+                div.remove()
+            }
+        })
+        calculatePoints()
+        next();
+    }
+    window.onload=next;
+</script>
+</body>
+</html>

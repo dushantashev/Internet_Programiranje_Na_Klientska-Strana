@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+</head>
+<body>
+<SCRIPT>
+    const data = [
+        {"size": 50, "color": "red"},
+        {"size": 40, "color": "green"},
+        {"size": 20, "color": "blue"},
+        {"size": 35, "color": "yellow"},
+        {"size": 25, "color": "orange"}
+    ];
+   data.forEach(createE)
+    function createE(div){
+       let square=document.createElement("div")
+        square.style.width=div.size+"px"
+        square.style.position="absolute"
+        square.style.height=div.size+"px"
+        square.style.background=div.color
+        square.style.top=Math.random()*400+"px"
+        square.style.left=Math.random()*400+"px"
+        square.onclick=tapElement
+        document.body.append(square)
+   }
+
+   function tapElement(event){
+       let square=event.target
+       let squareClone=square.cloneNode(true)
+       let topCordinateY=parseInt(square.style.top)
+       let topCordinateX=parseInt(square.style.left)
+       squareClone.style.position="absolute"
+       // squareClone.style.top=topCordinateX+"px"
+       // squareClone.style.left=topCordinateY+"px"
+
+       document.body.append(squareClone)
+
+
+       anime({
+           targets:squareClone,
+           top:100,
+
+           rotate: '1turn',
+           loop: true,
+           borderRadius: ['0%', '50%'],
+           easing:"easeInOutQuad"
+       })
+       squareClone.onclick=tapElement
+   }
+</SCRIPT>
+</body>
+</html>

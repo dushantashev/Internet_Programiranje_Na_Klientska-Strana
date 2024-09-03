@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        table{
+            width: 50%;
+            border-collapse: collapse;
+            margin: 20px auto;
+        }
+        th,td {
+            border:1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<table id="randomTable">
+    <tbody>
+
+    </tbody>
+</table>
+<p id="randomNum"></p>
+<script>
+    function  generateRandomNumber(){
+        return Math.floor(Math.random()*30);
+    }
+    function createTable(){
+        let table=document.getElementById("randomTable").getElementsByTagName('tbody')[0];
+        for (let i=0;i<3;i++){
+            let row=document.createElement("tr");
+            for (let j=0;j<3;j++){
+                let cell=document.createElement("td");
+                cell.innerText=generateRandomNumber();
+                row.appendChild(cell);
+            }
+            table.appendChild(row);
+        }
+    }
+    window.onload=createTable;
+
+    let counter=0;
+    document.addEventListener("click",function (event){
+ let element=event.target
+
+        let radndomNum=document.getElementById("randomNum").innerText;
+if (counter==9){
+    console.log("Winn")
+}
+        if (radndomNum===element.innerText){
+            console.log("HIt")
+            element.style.background="green"
+            counter++;
+
+
+
+        }
+        else {
+            console.log("Miss")
+            element.style.background="red"
+        }
+    })
+    function UpdateRandomNum(){
+        let randomNum=document.getElementById("randomNum");
+        randomNum.innerText=generateRandomNumber();
+    }
+    setInterval(UpdateRandomNum,5000);
+    UpdateRandomNum();
+</script>
+</body>
+</html>

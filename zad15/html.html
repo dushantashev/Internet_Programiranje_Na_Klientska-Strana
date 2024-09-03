@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        label {
+            display: flex;
+            margin-top: 5px;
+
+        }
+        table{
+            border-collapse: collapse;
+            padding: 2px;
+            border: 1px solid black;
+        }
+        tr,td,th{
+            border: 1px solid black;
+            padding: 5px;
+        }
+        @keyframes fadeOut{
+            from{
+                background-color: lightgreen;
+            }
+            to{
+               background-color: rgb(128, 128, 128);
+            }
+        }
+.fade-out{
+    animation: fadeOut 0.5s forwards;
+}
+
+    </style>
+</head>
+<body>
+<form>
+    <label>Name: <input  id="name" type="text"></label>
+    <label>Email: <input id="email" type="email"></label>
+    <label>Age: <input id="age" type="number"></label>
+    <label>Username: <input id="username" type="text"></label>
+    <label>Password: <input id="password" type="password"></label>
+    <label><select id="role"><option>Teacher</option><option>Student</option></select></label>
+    <label><input id="Add" type="button" value="Add"></label>
+    <label><p id="avb">Available teachers: 0</p></label>
+
+</form>
+<div>
+    <table id="table">
+        <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Username
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Age
+            </th>
+            <th>
+                Role
+            </th>
+            <th>
+                Actions
+            </th>
+
+        </tr>
+        </thead>
+        <tbody id="tbody">
+
+        </tbody>
+    </table>
+</div>
+<script>
+    let usernamesBase=[]
+    let counterForAvailableTeachers=0;
+    let addBtn=document.getElementById("Add");
+    addBtn.addEventListener("click",function () {
+        let name=document.getElementById("name").value
+        let email=document.getElementById("email").value
+        let age=document.getElementById("age").value
+        let username=document.getElementById("username").value
+        let password=document.getElementById("password").value
+        let role=document.getElementById("role").value
+        let table=document.getElementById("table")
+        let tbody=document.getElementById("tbody")
+        console.log(password)
+if (password.length<10 && !containsUppercase(password)&& !containsNumber(password)) {
+    alert("Losh pw")
+    return;
+}
+if (age<18 && role=="Teacher"){
+    alert("Loso")
+    return;
+}
+if (usernamesBase.includes(username)){
+    alert("Username-ot postoi")
+    return;
+}
+usernamesBase.push(username);
+let avaibleT=document.getElementById("avb")
+    let tr = document.createElement("tr")
+    let td_name = document.createElement("td")
+    let td_email = document.createElement("td")
+    let td_age = document.createElement("td")
+    let td_username = document.createElement("td")
+    let td_role = document.createElement("td")
+
+
+    td_name.innerText = name
+    td_username.innerText = username
+    td_email.innerText = email
+    td_age.innerText = age
+    td_role.innerText=role
+
+        tr.append(td_name)
+        tr.append(td_username)
+        tr.append(td_email)
+        tr.append(td_age)
+        tr.append(td_role)
+        if (role=="Teacher"){
+            tr.style.background="lightgreen"
+          let  td_hire=document.createElement("button");
+            td_hire.setAttribute("value","Hire")
+            td_hire.setAttribute("onclick","remove(this)")
+            td_hire.textContent = "Hire"
+            counterForAvailableTeachers++;
+            avaibleT.innerText="Available teachers: "+counterForAvailableTeachers;
+            tr.append(td_hire)
+        }
+        else{
+            tr.style.background="lightblue"
+
+        }
+        tbody.append(tr)
+        table.append(tbody)
+
+
+    })
+    function containsNumber(password){
+        return /\d/.test(password);
+    }
+    function containsUppercase(password){
+        return/[A-Z]/.test(password);
+    }
+
+    function remove(row){
+        let avaibleT=document.getElementById("avb")
+     counterForAvailableTeachers--;
+        avaibleT.innerText="Available teachers: "+counterForAvailableTeachers
+       row.parentNode.classList.add("fade-out")
+        setTimeout(()=>{
+            row.parentNode.style.background="gray";
+        },1500)
+
+        row.disabled=true;
+    }
+</script>
+</body>
+</html>

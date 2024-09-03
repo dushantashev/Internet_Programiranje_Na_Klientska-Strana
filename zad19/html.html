@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .circle{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            position: absolute;
+            background-color: blueviolet;
+        }
+        .line{
+            height: 100px;
+            border: 1px solid black;
+            position: absolute;
+
+        }
+
+    </style>
+</head>
+<body>
+<div class="container"></div>
+<script>
+    let balls=[]
+    let lines=[]
+cicleEl()
+    function cicleEl(){
+        for (let i=0;i<5;i++){
+            let div=document.createElement("div")
+            div.classList.add("circle")
+            div.style.top=Math.random()*800+"px"
+            div.style.left=0+"px"
+            mv(div)
+            balls.push({element: div})
+
+            document.body.append(div)
+
+        }
+    }
+    function mv(circle) {
+        let direction=1
+        setInterval(()=>{
+            let cordinateY=parseInt(circle.style.left);
+            if (cordinateY>950 || cordinateY<0){
+                direction*=-1
+            }
+            circle.style.left=cordinateY+direction*5+"px";
+        },25)
+    }
+lineGen()
+    function lineGen(){
+    for (let i=0;i<3;i++){
+        let line=document.createElement("div")
+        line.classList.add("line")
+        line.style.top=Math.random()*800+"px"
+        line.style.left=Math.random()*800+"px"
+        lines.push({element:line})
+        moveLine(line)
+        document.body.append(line)
+
+    }
+    }
+
+    function moveLine(line){
+        let direction=1;
+        setInterval(()=>{
+            let cordinateY=parseInt(line.style.left)
+            if (cordinateY>950 || cordinateY<0){
+                direction*=-1
+            }
+            line.style.left=(cordinateY+direction*5)+"px"
+        },25)
+    }
+
+    function remove() {
+        balls = balls.filter((ball) => {
+            let shouldKeep = true; // Assume ball should be kept initially
+
+            let ballRight = parseInt(ball.element.style.right, 10)-20;
+            let ballLeft = parseInt(ball.element.style.left, 10);
+            let ballTop = parseInt(ball.element.style.top, 10)+20;
+            let ballHeight = ball.element.offsetHeight; // Get height of the ball element
+            let ballBottom = ballTop + ballHeight; // Calculate bottom coordinate of the ball
+
+            for (let line of lines) {
+                let lineLeft = parseInt(line.element.style.left, 10); // Assuming left is used for X
+                let lineRight = parseInt(line.element.style.right, 10); // Assuming left is used for X
+                let lineTop = parseInt(line.element.style.top, 10)+30;  // Assuming top is used for Y
+                let lineHeight = line.element.offsetHeight; // Get height of the line element
+                let lineBottom = lineTop + lineHeight+30; // Calculate bottom coordinate of the line
+console.log(lineTop)
+                // Check if the ball is between the top and bottom of the line
+                if (lineTop <= ballTop && lineBottom >= ballBottom && ballLeft>lineLeft) {
+                    ball.element.remove(); // Remove the ball from the DOM
+                    shouldKeep = false; // Mark the ball for removal
+                    break; // Exit loop early, as we've found a match
+                }
+            }
+            return shouldKeep; // Keep the ball if it should not be removed
+        });
+    }
+
+    // Call remove function every 3 seconds
+    setInterval(remove, 50);
+
+
+</script>
+</body>
+</html>

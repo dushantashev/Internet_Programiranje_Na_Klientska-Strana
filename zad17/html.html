@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+
+</head>
+<body>
+<script>
+    data = '[{"size":50,"color":"red"},{"size":40,"color":"green"},{"size":20,"color":"blue"},{"size":35,"color":"yellow"},{"size":25,"color":"orange"}]';
+data=JSON.parse(data)
+    data.forEach(function (element){
+add_element(element)
+    })
+    function add_element(element){
+    var div=document.createElement("div");
+    div.style.backgroundColor=element.color
+    div.style.width=element.size+"px"
+    div.style.height=element.size+"px"
+    div.style.position="absolute"
+    div.style.top=Math.random()*400+"px"
+    div.style.left=Math.random()*400+"px"
+   div.onclick=moveElement;
+    document.body.appendChild(div)
+
+}
+function moveElement(event){
+    const div=event.target
+    const size=parseInt(div.style.height)
+
+    anime({
+        targets:div,
+        top:`+=${size}px`,
+        left:`+=${size}px`,
+        easing:'linear',
+    })
+    const directions=[
+        {x:size, y:-size},
+        {x:-size, y:size},
+        {x:-size, y:-size}
+    ];
+
+ directions.forEach(dir=>{
+     const clone=div.cloneNode();
+     document.body.appendChild(clone);
+     clone.onclick=moveElement;
+
+     anime({
+         targets:clone,
+         top:`+=${dir.x}px`,
+         left:`+=${dir.y}px`,
+         easing: 'linear',
+     })
+ })
+
+}
+</script>
+</body>
+</html>

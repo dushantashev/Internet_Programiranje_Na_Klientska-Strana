@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+
+</head>
+<body>
+<script>
+    data = '[{"size":50,"color":"red"},{"size":40,"color":"green"},{"size":20,"color":"blue"},{"size":35,"color":"yellow"},{"size":25,"color":"orange"}]';
+    let obj=JSON.parse(data)
+    for (let i=0;i<obj.length;i++){
+        let div=document.createElement("div")
+        div.style.height=obj[i].size+"px"
+        div.style.width=obj[i].size+"px"
+        div.style.position="absolute"
+        div.style.top=Math.floor(Math.random()*400)+"px"
+        div.style.left=Math.floor(Math.random()*800)+"px"
+        div.style.background=obj[i].color
+        div.onclick=move
+        document.body.append(div)
+
+
+    }
+    function move(element){
+        let div=element.target
+        let sizes=[
+            [100,0],
+            [-100,0],
+            [0,100],
+            [0,-100]
+        ]
+        sizes.forEach(([top,left])=>{
+            let cloneDiv=div.cloneNode(true)
+            let cloneDivTop=parseInt(cloneDiv.style.top)
+            let cloneDivLeft=parseInt(cloneDiv.style.left)
+            cloneDiv.onclick=move
+            document.body.append(cloneDiv)
+            anime({
+                targets:cloneDiv,
+                top:cloneDivTop+top,
+                left:cloneDivLeft+left,
+                easing: "linear",
+
+            })
+        })
+
+    }
+
+</script>
+</body>
+</html>

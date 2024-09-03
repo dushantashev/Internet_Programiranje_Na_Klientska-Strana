@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        table{
+            width: 50%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 18px;
+            text-align: left;
+        }
+        th,td{
+            padding: 12px;
+            border:1px solid black;
+        }
+        th{
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even){
+            background-color:#f9f9f9 ;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <table id="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Color</th>
+        </tr>
+
+        </thead>
+    <tbody id="tbody">
+       <tr>
+           <td>Product 1</td>
+           <td>$10</td>
+           <td>red</td>
+       </tr>
+       <tr>
+           <td>Product 2</td>
+           <td>$20</td>
+           <td>blue</td>
+       </tr>
+       <tr>
+           <td>Product 3</td>
+           <td>$30</td>
+           <td>green</td>
+       </tr>
+    </tbody>
+    </table>
+</div>
+<form>
+   <label>Name: <input  id="name" type="text"></label>
+   <label>Price: <input  id="price" type="text"></label>
+    <label>
+        Color: <input type="color" id="productColor" required>
+    </label>
+  <label>  <input id="add" type="button" value="Add Product">
+
+  </label>
+<label><input id="select" type="button" value="Select"></label>
+</form>
+<script>
+     let list=[]
+    let addBtn=document.getElementById("add")
+    let table=document.getElementById("table")
+   addBtn.addEventListener("click",function () {
+       let name=document.getElementById("name").value
+       let price=document.getElementById("price").value
+       let color=document.getElementById("productColor").value
+       let tbody=document.getElementById("tbody");
+       let tr=document.createElement("tr")
+       let td_name=document.createElement("td")
+       let td_price=document.createElement("td")
+       let td_color=document.createElement("td")
+       td_name.innerText=name
+       td_price.innerText="$"+price
+       td_color.innerText=color
+       tr.append(td_name)
+       tr.append(td_price)
+       tr.append(td_color)
+       tr.style.background=color
+       list.push({element:name,price:price,color:color});
+       tbody.append(tr)
+       table.append(tbody)
+   })
+     window.onload = function () {
+         let table = document.getElementById("tbody");
+         let rows = table.getElementsByTagName("tr");
+
+         for (let i = 0; i < rows.length; i++) {
+             rows[i].addEventListener("click", function () {
+                 this.parentNode.removeChild(this);
+             });
+         }
+     }
+
+     // let select = document.getElementById("select");
+     // select.addEventListener("click", function () {
+     //     let tbody = document.getElementById("tbody");
+     //
+     //     // Чистење на постоечките редови
+     //     while (tbody.firstChild) {
+     //         tbody.removeChild(tbody.firstChild);
+     //     }
+     //
+     //     // Сортирање по азбучен редослед
+     //     list.sort(function(a, b) {
+     //         return a.element.localeCompare(b.element);
+     //     });
+     //
+     //     // Пополнување на табелата со сортирани редови
+     //     for (let i = 0; i < list.length; i++) {
+     //         let tr = document.createElement("tr");
+     //         let td_name = document.createElement("td");
+     //         let td_price = document.createElement("td");
+     //         let td_color = document.createElement("td");
+     //
+     //         td_name.innerText = list[i].element;
+     //         td_price.innerText = list[i].price;
+     //         td_color.innerText = list[i].color;
+     //
+     //         tr.append(td_name);
+     //         tr.append(td_price);
+     //         tr.append(td_color);
+     //         tbody.append(tr);
+     //     }
+     // });
+ let select=document.getElementById("select");
+     select.addEventListener("click",function () {
+         let table=document.getElementById("table")
+         let tbody=document.getElementById("tbody");
+         while (tbody.firstChild){
+             tbody.removeChild(tbody.firstChild)
+         }
+         // list.sort(function (a,b){
+         //     return a.element.localeCompare(b.element)
+         // })
+         list.sort(function (a,b){
+             return a.price-b.price
+         })
+         list.reverse()
+         for(let i=0;i<list.length;i++){
+             let tr=document.createElement("tr")
+             let td_name=document.createElement("td")
+             let td_price=document.createElement("td")
+             let td_color=document.createElement("td")
+td_name.innerText=list[i].element;
+td_price.innerText="$"+list[i].price;
+td_color.innerText=list[i].color;
+             tr.append(td_name)
+             tr.append(td_price)
+             tr.append(td_color)
+             tbody.append(tr)
+
+         }
+         table.append(tbody)
+     })
+</script>
+</body>
+</html>

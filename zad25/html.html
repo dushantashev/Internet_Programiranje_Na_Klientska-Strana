@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catch the Ball Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        #gameCanvas {
+            display: block;
+            margin: 0 auto;
+            background: #f0f0f0;
+        }
+        #score {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="score">Score: 0</div>
+<canvas id="gameCanvas" width="800" height="600"></canvas>
+
+<script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const scoreElement = document.getElementById('score');
+    let score = 0;
+
+    const playerSize = 50;
+    const ballSize = 30;
+    let playerX = canvas.width / 2 - playerSize / 2;
+    let ballX = Math.random() * (canvas.width - ballSize);
+    let ballY = -ballSize;
+    let ballSpeed = 2;
+    let isMovingLeft = false;
+    let isMovingRight = false;
+
+    function drawPlayer() {
+        ctx.fillStyle = '#3498db';
+        ctx.fillRect(playerX, canvas.height - playerSize, playerSize, playerSize);
+    }
+
+    function drawBall() {
+        ctx.fillStyle = '#e74c3c';
+        ctx.beginPath();
+        ctx.arc(ballX + ballSize / 2, ballY + ballSize / 2, ballSize / 2, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    function update() {
+        if (isMovingLeft && playerX > 0) playerX -= 5;
+        if (isMovingRight && playerX < canvas.width - playerSize) playerX += 5;
+
+        ballY += ballSpeed;
+
+        if (ballY > canvas.height) {
+            resetBall();
+        }
+
+        if (ballY + ballSize > canvas.height - playerSize &&
+            ballX + ballSize > playerX &&
+            ballX < playerX + playerSize) {
+            score++;
+            resetBall();
+        }
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawPlayer();
+        drawBall();
+        scoreElement.textContent = `Score: ${score}`;
+
+        requestAnimationFrame(update);
+    }
+
+    function resetBall() {
+        ballX = Math.random() * (canvas.width - ballSize);
+        ballY = -ballSize;
+    }
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft') isMovingLeft = true;
+        if (event.key === 'ArrowRight') isMovingRight = true;
+    });
+
+    document.addEventListener('keyup', (event) => {
+        if (event.key === 'ArrowLeft') isMovingLeft = false;
+        if (event.key === 'ArrowRight') isMovingRight = false;
+    });
+
+    update();
+</script>
+</body>
+</html>

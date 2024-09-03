@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+
+    <style>
+        label{
+            display: flex;
+        }
+        table{
+            border-collapse: collapse;
+            border: 1px solid black;
+
+        }
+    tr,td{
+        margin: 10px;
+        padding: 10px;
+        border: 1px solid black;
+    }
+    </style>
+</head>
+<body>
+<label>Adresa na isprakjach <input id="adresaIsp" type="text"></label>
+<label>Adresa na primach <input id="adresaPrim" type="text"></label>
+<label>Tezina na pratka <input id="tezina" type="text"></label>
+<label>Nachin na plakjanje </label>
+<label> Prakjanje<input type="radio" name="an" value="prakjanje"></label>
+<label> Primanje<input type="radio" name="an" value="primanje"></label>
+
+
+<label>ID na profil: <input id="id" type="text"></label>
+<label><input type="button" id="btn" value="Vnesi"></label>
+<label><input type="button" id="sortiraj" value="Sortiraj po Id"></label>
+<label><input type="button" id="sortirajPoCena" value="Sortiraj po cena"></label>
+<table id="table">
+    <thead>
+    <tr>
+        <td>ID</td>
+        <td>Adresa na isprakjach</td>
+        <td>Adresa na primach</td>
+        <td>Cena</td>
+        <td>Akcii</td>
+    </tr>
+    </thead>
+    <tbody id="tbody">
+
+    </tbody>
+</table>
+<script>
+    let base=[]
+    let data='[{"address_from":"Partizanska 1", "address_to":"Kliment Ohridski 15", "weight":"3.5", "paid_type":"on_send", "ID":"Id902 90sUsdql3", "delivery": "on_hold"},{"address_from":"Ruzveltova 3", "address_to":"3MUB 43", "weight":"15", "paid_type":"on_receive", "ID":"W8902 90sWmPqLzl3", "delivery": "false"}]'
+    let obj=JSON.parse(data)
+
+    let tbodyy = document.getElementById("tbody")
+    let table=document.getElementById("table")
+// console.log(obk[1].ID)
+for (let i=0;i<obj.length;i++){
+
+    let tr = document.createElement("tr")
+    let td_id = document.createElement("td");
+    let td_ispakjac = document.createElement("td");
+    let td_primach = document.createElement("td");
+    let td_cena = document.createElement("td");
+    let td_akcii = document.createElement("td");
+    let idFinal=obj[i].ID.split(" ").join("_").toString()
+    td_id.innerHTML=idFinal.toString()
+
+    td_ispakjac.innerHTML=obj[i].address_from
+    td_primach.innerHTML=obj[i].address_to
+    let dostavi=document.createElement("button")
+    dostavi.innerHTML="Dostavi"
+    let otkazi=document.createElement("button")
+    otkazi.innerHTML="Otkazi"
+    let weight=obj[i].weight
+    let cena=""
+    if (weight>3){
+        cena=1200
+        td_cena.innerHTML=1200
+    }
+    else{
+        cena=500
+        td_cena.innerHTML=500
+    }
+    base.push({id:idFinal,adresaIsp:obj[i].address_from,adresaPrim:obj[i].address_to,cena:cena})
+    td_akcii.append(dostavi)
+    td_akcii.append(otkazi)
+    tr.append(td_id)
+    tr.append(td_ispakjac)
+    tr.append(td_primach)
+    tr.append(td_cena)
+    tr.append(td_akcii)
+    tbody.append(tr)
+    table.append(tbodyy)
+    document.body.append(table)
+
+
+    }
+let btn=document.getElementById("btn")
+    btn.addEventListener("click",function (){
+        let id=document.getElementById("id").value
+        let adrIsp=document.getElementById("adresaIsp").value
+        let adrPrim=document.getElementById("adresaPrim").value
+        let tezina=document.getElementById("tezina").value
+
+
+        let tr = document.createElement("tr")
+        let td_id = document.createElement("td");
+        let td_ispakjac = document.createElement("td");
+        let td_primach = document.createElement("td");
+        let td_cena = document.createElement("td");
+        let td_akcii = document.createElement("td");
+        let idFinal = id.split(" ").join("_").toString();
+        td_id.innerHTML=idFinal.toString()
+
+
+
+        td_ispakjac.innerHTML=adrIsp
+        td_primach.innerHTML=adrPrim
+        let dostavi=document.createElement("button")
+        dostavi.innerHTML="Dostavi"
+        let otkazi=document.createElement("button")
+        otkazi.innerHTML="Otkazi"
+let cena=""
+        if (tezina>3){
+            cena=1200
+            td_cena.innerHTML=1200
+        }
+        else{
+            cena=500
+            td_cena.innerHTML=500
+        }
+        base.push({id:idFinal,adresaIsp:adrIsp,adresaPrim:adrPrim,cena:cena})
+
+        td_akcii.append(dostavi)
+        td_akcii.append(otkazi)
+        tr.append(td_id)
+        tr.append(td_ispakjac)
+        tr.append(td_primach)
+        tr.append(td_cena)
+        tr.append(td_akcii)
+        tbody.append(tr)
+        table.append(tbodyy)
+        document.body.append(table)
+
+    })
+
+let sortiraj=document.getElementById("sortiraj")
+    sortiraj.addEventListener("click",function (){
+        base.sort((a, b) => a.id.localeCompare(b.id));
+
+        let tbody=document.getElementById("tbody")
+        // while (tbody.firstChild){
+        //     tbody.removeChild(tbody.firstChild)
+        // }
+        //
+       // removeRows()
+tbody.innerHTML=""
+     for (let i=0;i<base.length;i++) {
+         let tr = document.createElement("tr")
+         let td_id = document.createElement("td");
+         let td_ispakjac = document.createElement("td");
+         let td_primach = document.createElement("td");
+         let td_cena = document.createElement("td");
+         let td_akcii = document.createElement("td");
+
+         td_id.innerHTML = base[i].id
+
+
+         td_ispakjac.innerHTML = base[i].adresaIsp
+         td_primach.innerHTML = base[i].adresaPrim
+         let dostavi = document.createElement("button")
+         dostavi.innerHTML = "Dostavi"
+         let otkazi = document.createElement("button")
+         otkazi.innerHTML = "Otkazi"
+         td_cena.innerHTML=base[i].cena
+         td_akcii.append(dostavi)
+         td_akcii.append(otkazi)
+         tr.append(td_id)
+         tr.append(td_ispakjac)
+         tr.append(td_primach)
+         tr.append(td_cena)
+         tr.append(td_akcii)
+         tbody.append(tr)
+         table.append(tbody)
+
+     }
+    })
+
+    let sortirajPoCena=document.getElementById("sortirajPoCena")
+    sortirajPoCena.addEventListener("click",function (){
+      base.sort((a,b)=>a.cena-b.cena)
+
+        let tbody=document.getElementById("tbody")
+        // while (tbody.firstChild){
+        //     tbody.removeChild(tbody.firstChild)
+        // }
+        //
+        // removeRows()
+        tbody.innerHTML=""
+        for (let i=0;i<base.length;i++) {
+            let tr = document.createElement("tr")
+            let td_id = document.createElement("td");
+            let td_ispakjac = document.createElement("td");
+            let td_primach = document.createElement("td");
+            let td_cena = document.createElement("td");
+            let td_akcii = document.createElement("td");
+
+            td_id.innerHTML = base[i].id
+
+
+            td_ispakjac.innerHTML = base[i].adresaIsp
+            td_primach.innerHTML = base[i].adresaPrim
+            let dostavi = document.createElement("button")
+            dostavi.innerHTML = "Dostavi"
+            let otkazi = document.createElement("button")
+            otkazi.innerHTML = "Otkazi"
+            otkazi.setAttribute("onclick","removeRow(this)")
+            td_cena.innerHTML=base[i].cena
+            td_akcii.append(dostavi)
+            td_akcii.append(otkazi)
+            tr.append(td_id)
+            tr.append(td_ispakjac)
+            tr.append(td_primach)
+            tr.append(td_cena)
+            tr.append(td_akcii)
+            tbody.append(tr)
+            table.append(tbody)
+
+        }
+    })
+    function removeRow(row){
+    console.log(row.parentNode.parentNode)
+        anime({
+            targets:row.parentNode.parentNode,
+            opacity:0,
+            duration:2000,
+            easing:"linear",
+            complete:function (){
+                row.parentNode.parentNode.remove()
+            }
+        })
+
+    }
+let rows=document.querySelectorAll("tr");
+rows.forEach(row=>{
+    row.addEventListener("click",function (){
+        anime({
+            targets:row,
+            opacity: 0,
+            duration: 1000,
+            easing: "linear",
+
+            complete:function (){
+                row.remove();
+            }
+        })
+
+    })
+})
+</script>
+</body>
+</html>

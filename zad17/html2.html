@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+
+    <style>
+    #circle{
+        width: 50px;
+        height: 50px;
+        background-color: blueviolet;
+        border-radius: 50%;
+        position: absolute;
+    }
+    #line{
+        position: absolute;
+        top: 0;
+        left: 400px;
+        border:1px solid black;
+display: none;
+        height: 100%;
+
+    }
+</style>
+</head>
+<body>
+<div id="circle"></div>
+<div id="line"></div>
+<script>
+    let forms=[]
+    let circle=document.getElementById("circle")
+    let target=circle.target
+    setInterval(() => moving(circle), 2500);
+    let duplicate=circle.cloneNode();
+    document.body.append(duplicate)
+    setInterval(()=>moving(duplicate),3000)
+forms.push({elements:circle})
+forms.push({elements:duplicate})
+    function moving(circle2) {
+        // circle.addEventListener("click", function () {
+
+        anime({
+            targets: circle2,
+            top: 0 + "px",
+            left: 800 + "px",
+            easing: 'linear',
+
+        })
+        setTimeout(() => {
+
+            anime({
+                targets: circle2,
+                top: 0 + "px",
+                left: 0 + "px",
+                easing: 'linear',
+
+            })
+
+        }, 1500)
+
+        stopAnimation()
+    }
+function stopAnimation(){
+        let line=document.getElementById("line")
+
+    setTimeout(()=>{
+        line.style.display="block"
+        forms=forms.filter((form)=>{
+          let cordinateY=parseInt(form.elements.style.left)
+          if (cordinateY<=400){
+              form.elements.remove()
+              return false;
+          }
+          return true
+        })
+
+    },5500)
+    line.style.display="none"
+}
+
+</script>
+</body>
+</html>

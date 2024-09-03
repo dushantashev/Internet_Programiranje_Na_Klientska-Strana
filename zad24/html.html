@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <STYLE>
+        table{
+            border: 1px solid black;
+            margin: 10px;
+        }
+        tr,td{
+            border: 1px solid black;
+           padding: 10px;
+        }
+    </STYLE>
+</head>
+<body>
+<p id="randomNumber">Random Number: </p>
+<!--<input type="color">-->
+<script>
+    data = '[{"id":1,"numbers":[80,72,49,1,34,81,36,2,13,9,54,93,29,18,52]},{"id":2,"numbers":[68,85,24,7,32,12,88,57,35,11,44,58,91,21,22]},{"id":3,"numbers":[16,5,75,64,28,70,50,55,40,77,23,48,98,67,73]}]';
+    data = JSON.parse(data);
+   // for (let i=0;i<3;i++){
+   //     let table=document.createElement("table")
+   //     let tbody=document.createElement("tbody")
+   //     for (let j=0;j<3;j++){
+   //         let tr=document.createElement("tr")
+   //         for (let y=0;y<5;y++){
+   //             let td=document.createElement("td")
+   //             td.innerHTML="13"
+   //             tr.append(td)
+   //         }
+   //         tbody.append(tr)
+   //         table.append(tbody)
+   //         document.body.append(table)
+   //     }
+   // }
+
+
+  data.forEach((data)=>{
+      let table=document.createElement("table")
+      let tbody=document.createElement("tbody")
+      counter=0;
+      console.log(data.numbers[counter])
+      for (let i=0;i<3;i++){
+          let tr=document.createElement("tr");
+          for (let j=0;j<5;j++){
+              let td=document.createElement("td")
+              td.classList.add("td")
+              td.innerHTML=data.numbers[counter]
+              console.log(data.numbers[counter])
+              counter++;
+              tr.append(td)
+          }
+          tbody.append(tr)
+          table.append(tbody)
+          document.body.append(table)
+
+      }
+
+      })
+    let randomNumber=""
+    function tiktik(){
+
+            setInterval(()=>{
+                 randomNumber=Math.floor(Math.random()*20)
+                let paragraf=document.getElementById("randomNumber")
+                paragraf.innerHTML="Random Number: "+randomNumber
+
+
+
+            },3000)
+
+
+            console.log(randomNumber)
+
+    }
+window.onload=function (){
+      tiktik()
+    let td=document.querySelectorAll(".td")
+    td.forEach((td)=>{
+        td.addEventListener("click",function (){
+            if (randomNumber==td.textContent){
+                td.style.background="green"
+            }
+
+        })
+    })
+}
+</script>
+</body>
+</html>

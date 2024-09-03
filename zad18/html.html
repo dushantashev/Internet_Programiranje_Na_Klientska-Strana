@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <STYLE>
+    #square{
+      width: 500px;
+      height: 500px;
+      background-color: lightgreen;
+      display: flex;
+      justify-content: center;
+    }
+    #square2{
+      margin-top: 150px;
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      background-color: orange;
+    }
+    body{
+      display: flex;
+      justify-content: center;
+    }
+.circle{
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  background: blueviolet;
+
+  left: 0;
+}
+  </STYLE>
+</head>
+<body>
+<div id="square">
+  <div id="square2"></div>
+</div>
+<script>
+  createEl()
+  function createEl(){
+    for (let i=0;i<8;i++){
+   let miniSquare=document.createElement("div")
+      miniSquare.classList.add("circle")
+      miniSquare.style.top=Math.random()*450+"px"
+      miniSquare.style.left=0;
+
+      document.body.append(miniSquare)
+      moveElem(miniSquare)
+    }
+  }
+  let square2=document.getElementById("square");
+  let rec=square2.getBoundingClientRect(square2)
+ let topSq=parseInt(rec.top)
+ let bottomSq=parseInt(rec.bottom)
+ let leftSq=parseInt(rec.left)
+ let rightSq=parseInt(rec.right)
+  console.log(topSq)
+  console.log(bottomSq)
+  console.log(leftSq)
+  console.log(rightSq)
+let orangeSquaree=document.getElementById("square2")
+  let rec2=orangeSquaree.getBoundingClientRect();
+  let topSquare2=rec2.top;
+  let leftSquare2=parseInt(rec2.left)
+  let rightSquare2=parseInt(rec2.right)
+  let bottomSquare2=rec2.bottom
+function moveElem(miniSquare){
+    let direction=1;
+    setInterval(()=>{
+      let cordinateY=parseInt(miniSquare.style.left)
+      let cordinateX=parseInt(miniSquare.style.top)
+      if (cordinateY>1000 || cordinateY<0){
+        direction*=-1
+      }
+      if (cordinateY>leftSq && cordinateY<rightSq){
+        if (cordinateY>leftSquare2 && cordinateY<rightSquare2){
+          miniSquare.style.background="blue"
+        }
+        else
+        miniSquare.style.background="red"
+      }
+
+      else
+      {
+        miniSquare.style.background="blueviolet"
+      }
+
+      // if (cordinateY>leftSquare2 && cordinateX<rightSquare2){
+      //   miniSquare.style.background="blue"
+      // }
+
+
+      miniSquare.style.left=(cordinateY+direction*5)+"px"
+
+    },25)
+}
+function orangeSquare(miniSquare){
+
+
+
+  setInterval(()=>{
+
+  })
+}
+  // console.log(square2.style.right)
+</script>
+</body>
+</html>

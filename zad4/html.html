@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        label {
+            display: flex;
+        }
+        p {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+<label>Red:<input id="red" type="text"></label>
+<label>Green:<input id="green" type="text"></label>
+<label>Blue:<input id="blue" type="text"></label>
+<br>
+<label id="radio">
+    Start:<input type="radio" name="radio" value="start">
+    End:<input type="radio" name="radio" value="end" checked>
+</label>
+<br>
+Text:<input id="text" type="text">
+<br><br>
+<input id="add" type="button" value="Add">
+<input id="delete" type="button" value="Delete">
+<div id="prostor"></div>
+
+<script>
+let myList=[]
+let add=document.getElementById("add");
+add.addEventListener("click",function () {
+    let red = document.getElementById("red").value;
+    let green = document.getElementById("green").value;
+    let blue = document.getElementById("blue").value;
+    let textValue = document.getElementById("text").value;
+    let radioValue=document.querySelector('input[name="radio"]:checked').value;
+
+    let textObj={
+        value: textValue,
+        color: `#${red}${green}${blue}`
+    }
+    if (radioValue==="start"){
+    myList.unshift(textObj);
+    }
+    else{
+        myList.push(textObj)
+        }
+
+renderList();
+})
+let deleteBtn=document.getElementById("delete");
+deleteBtn.addEventListener("click", function (){
+    let radioValue=document.querySelector('input[name="radio"]:checked').value;
+    if (radioValue==="start"){
+        myList.shift();
+    }
+    else{
+        myList.pop();
+    }
+    renderList();
+})
+function renderList(){
+    let prostor=document.getElementById("prostor");
+    prostor.innerText='';
+    for (let i=0;i<myList.length;i++){
+        let element=document.createElement("p")
+        element.innerText=myList[i].value;
+        element.style.color=myList[i].color;
+        prostor.append(element);
+    }
+    document.body.append(prostor);
+}
+
+</script>
+</body>
+</html>

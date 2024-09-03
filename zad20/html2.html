@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+
+    <style>
+        #container {
+            display: flex;
+            justify-content: center;
+        }
+        .square {
+            width: 200px;
+            height: 100px;
+            background-color: blue;
+            margin: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        #square4 {
+            position: absolute;
+            top: 600px;
+            left: 600px;
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <div class="square" id="square1">7</div>
+    <div class="square" id="square2">8</div>
+    <div class="square" id="square3">9</div>
+</div>
+<div class="square" id="square4"></div>
+
+<script>
+    let square1 = document.getElementById("square1");
+    let square2 = document.getElementById("square2");
+    let square3 = document.getElementById("square3");
+
+    let base = [];
+    let bullets = [];
+    base.push({element: square1});
+    base.push({element: square2});
+    base.push({element: square3});
+
+    let gun = document.getElementById("square4");
+    gun.onclick = fire;
+
+    function fire(event) {
+        let bulletClone = document.createElement("div");
+        bulletClone.className = "square";
+        bulletClone.style.position = "absolute";
+        bulletClone.style.width = "50px";
+        bulletClone.style.height = "50px";
+        bulletClone.style.backgroundColor = "red";
+
+        // Поставување на куршумот на почетната позиција (пиштолот)
+        bulletClone.style.top = 600+"px";
+        bulletClone.style.left = 600+"px"
+
+        document.body.append(bulletClone);
+        bullets.push({element: bulletClone});
+
+        anime({
+            targets: bulletClone,
+            top: '0px',  // Преместување кон горниот дел на екранот
+            left: Math.random() * window.innerWidth + "px",  // Случајна позиција на X-оската
+            easing: "linear",
+            duration: 1000,
+            complete: function () {
+                points++;
+                console.log("Points:", points);
+                // Отстранување на куршумот откако ќе стигне до врвот
+                bulletClone.remove();
+            }
+        });
+    }
+
+    let points = 0;
+
+    function sumOfPoint() {
+        bullets = bullets.filter((bullet) => {
+            let bulletLeft = parseInt(bullet.element.style.left);
+            let bulletWidth = bullet.element.offsetWidth;
+            let bulletRight = bulletLeft + bulletWidth;
+            let bulletTop = parseInt(bullet.element.style.top); // Додавање на `top` за да проверите дали е во иста висина
+
+            let hit = false;
+
+            base.forEach((baset) => {
+                let baseLeft = parseInt(baset.element.style.left);
+                let baseWidth = baset.element.offsetWidth;
+                let baseRight = baseLeft + baseWidth;
+                let baseTop = parseInt(baset.element.style.top); // Проверка на `top` на базата
+                let baseBottom = baseTop + baset.element.offsetHeight; // Додавање на `bottom` на базата
+
+                // Проверка дали куршумот е во истиот опсег како базата (и по X и по Y координати)
+                if (
+                    bulletLeft >= baseLeft && bulletRight <= baseRight &&
+                    bulletTop >= baseTop && bulletTop <= baseBottom
+                ) {
+                    points++;
+                    console.log("Pointsbjzcbhsd:", points);
+                    hit = true;
+                    bullet.element.remove();  // Отстрани го куршумот ако го погоди целта
+                }
+            });
+
+            return !hit;  // Ако куршумот го погоди целта, отстрани го од низата
+        });
+    }
+
+    setInterval(sumOfPoint, 50);
+
+</script>
+</body>
+</html>

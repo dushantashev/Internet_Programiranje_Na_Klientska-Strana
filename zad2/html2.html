@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TItle</title>
+</head>
+<body>
+<p>Colors</p>
+<label>
+    <input id="colors" type="text">
+</label>
+<br>
+<p>Delimiter</p>
+<label >
+    <input id="delimiter" type="text">
+</label>
+<input id="button" type="button" value="Type">
+</body>
+<script>
+    var colors=document.getElementById("colors");
+    var button=document.getElementById("button");
+    var delimiter=document.getElementById("delimiter")
+    let color=null;
+    let delimiterChar=null
+    button.addEventListener("click",function (){
+         delimiterChar=delimiter.value;
+        color=colors.value.split(delimiterChar);
+        console.log(color.length);
+// var exixtingSquares=document.querySelector(".square");
+// exixtingSquares.forEach(function (square){
+//     square.remove();
+//         })
+        var exixtingSquares=document.querySelectorAll(".square");
+        exixtingSquares.forEach(function (square){
+            square.remove();
+        });
+
+        for (let i = 0; i < color.length; i++) {
+            var square = document.createElement("div");
+            square.style.width = "100px";
+            square.style.height = "100px";
+            square.style.backgroundColor = color[i];  // Или користи colorArray[i].trim() ако сакаш секој квадрат да има различна боја
+            square.classList.add("square");
+            document.body.append(square);
+        }
+    })
+
+
+</script>
+</html>

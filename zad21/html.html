@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p style="font-size: larger">Pogodi go zborot so 3 bukvi od dadenite bukvi</p>
+<div class="letter" id="randomLetter"></div>
+<input type="text" id="text">
+<input type="button" id="pogodi" value="Pogodi">
+<button  id="gen" onclick="generateRandomLetter()">Generiraj</button>
+<p id="timer">Timer:60</p>
+
+<script>
+    let niza=[]
+    let zbor=""
+    function generateRandomLetter(){
+document.getElementById("gen").disabled=true
+    for (let i=0;i<10;i++){
+      let letters="qazwsxedcrfvtgbyhnujmikolpAQZWSXEDCRFVTGBYHNUJMIKOLP"
+        let randomIndex=Math.floor(Math.random()*letters.length)
+        let randomLetter=letters[randomIndex]
+        niza.push(randomLetter)
+
+    }
+
+
+    for (let i=0;i<niza.length;i++){
+        let paragraf=document.createElement("p")
+        paragraf.innerHTML=niza[i]
+        document.body.append(paragraf)
+    }
+
+for(let i=0;i<3;i++){
+    let randomIndex=Math.floor(Math.random()*niza.length)
+    let randomBukva1=niza[randomIndex]
+    zbor+=randomBukva1
+}
+console.log(zbor)
+        let time=60
+        let timer=document.getElementById("timer");
+        setInterval(()=>{
+            time=time-1
+            timer.innerHTML=time
+        },1000)
+    }
+let pogodi=document.getElementById("pogodi")
+    pogodi.addEventListener("click",function (){
+        let text=document.getElementById("text").value
+        if (text===zbor){
+            let pogodook=document.createElement("p")
+            pogodook.innerText="POGOOOODOOOK!!!!!"
+            document.body.append(pogodook);
+            pogodi.disabled=true;
+        }
+    })
+
+
+
+</script>
+</body>
+</html>

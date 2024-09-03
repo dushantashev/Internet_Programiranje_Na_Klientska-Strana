@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        label{display: flex}
+        td{
+            border: 2px solid black;
+        }
+        tr{
+            border: 3px solid black;
+        }
+
+    </style>
+</head>
+<body>
+<h2>Kargo dostava za pratki</h2>
+<label>Adresa na isprakjach: <input id="adresaIsprakjac" type="text"></label>
+<label>Adresa na primach: <input id="adresaPrimach" type="text"></label>
+<label>Tezina na pratka: <input id="tezina" type="text"></label>
+<form>Nachin na plakjanje:<label>Prakjanje: <input type="radio" name="nachin" value="Prakjanje"></label> <label>Primanje: <input type="radio" name="nachin" value="Primanje"></label></form>
+<label>ID na profilot <input id="id" type="text"></label>
+<input type="button" id="Vnesi" value="Vnesi">
+
+<h4>Vneseni pratki</h4>
+<p id="vkupnaSuma">Vkupna suma: </p>
+<table id="tabela">
+    <tbody>
+    <tr>
+        <td>
+            ID
+        </td>
+        <td>
+            Adresa na isprakjac
+        </td>
+        <td>
+            Adresa na primach
+        </td>
+        <td>
+            Cena
+        </td>
+        <td>
+            Akcii
+        </td>
+    </tr>
+    </tbody>
+</table>
+<h3>Otkaazani narachki</h3>
+<ul id="otkazani">
+
+</ul>
+<script>
+    let myList=[]
+    let otkazani=[]
+    let vklupnaSuma=0;
+    let vnesi=document.getElementById("Vnesi")
+    let tabela=document.getElementById("tabela")
+    let vkupnoo=document.getElementById("vkupnaSuma");
+    let OtkazaniTabela=document.getElementById("otkazani")
+    vnesi.addEventListener("click",function (){
+        let id=document.getElementById("id").value;
+        let adresaIspakjac=document.getElementById("adresaIsprakjac").value;
+        let adresaPrimach=document.getElementById("adresaPrimach").value;
+        let tezina=document.getElementById("tezina").value;
+
+if (myList.includes(id.toLowerCase())){
+    // alert("Id-to veke postoi")
+    // return;
+}
+else {
+    myList.push(id)
+    let row = document.createElement("tr");
+    let cell1 = document.createElement("td");
+    let cell2 = document.createElement("td");
+    let cell3 = document.createElement("td");
+    let cell4 = document.createElement("td");
+    let cell5 = document.createElement("td");
+
+    cell1.innerText = id;
+    cell2.innerText = adresaIspakjac;
+    cell3.innerText = adresaPrimach;
+    const dostavenoButton = document.createElement("button")
+    const otkazanoButton = document.createElement("button")
+    dostavenoButton.addEventListener("click",(event)=>{
+        let currentRow=event.target.parentNode.parentNode
+    currentRow.style.background="lightgreen"
+    currentRow.style.border="2px solid black"
+dostavenoButton.setAttribute("disabled","true");
+otkazanoButton.setAttribute("disabled","true");
+
+let currentPrice=currentRow.children[3].innerHTML;
+        console.log(currentPrice)
+vklupnaSuma+=parseInt(currentPrice)
+        vkupnoo.innerText="Vkupna suma: "+vklupnaSuma;
+
+
+
+    })
+
+        otkazanoButton.addEventListener("click",function (event){
+
+            let Crow=event.target.parentNode.parentNode
+            let currentId =Crow.children[0].innerHTML;
+
+            otkazani.push(currentId);
+            dodadiVoOtkazani(currentId)
+            Crow.remove();
+
+    })
+
+    dostavenoButton.textContent = "Dostaveno"
+    otkazanoButton.textContent = "Otkazano"
+    cell5.append(dostavenoButton)
+    cell5.append(otkazanoButton)
+   cell4.innerText=tezina<5 ? "500":"1200"
+    row.append(cell1)
+    row.append(cell2)
+    row.append(cell3)
+    row.append(cell4)
+    row.append(cell5)
+
+    tabela.appendChild(row);
+} })
+    function dodadiVoOtkazani(id){
+        let element=document.createElement("li")
+        element.innerHTML=id;
+        OtkazaniTabela.append(element);
+    }
+</script>
+</body>
+</html>

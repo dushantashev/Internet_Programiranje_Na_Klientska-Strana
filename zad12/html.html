@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .circle{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: green;
+            position: absolute;
+        }
+        .line{
+            width: 10px;
+            /*height: 100px;*/
+            background: black;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+<!--<div id="elements">-->
+<!--    <div class="circle"></div>-->
+<!--</div>-->
+<!--<div class="line" style="left: 200px"></div>-->
+<!--<div class="line" style="left: 400px"></div>-->
+<!--<div class="line" style="left: 600px"></div>-->
+<h2 id="score">Score: 0</h2>
+<script>
+    let counter=0;
+    let score=document.getElementById("score");
+    for (let i=0;i<10;i++){
+        let element=document.createElement("div");
+        element.className="circle"
+        var x=Math.floor(Math.random()*(window.innerHeight-200))
+        var y=Math.floor(Math.random()*window.innerWidth-200)
+        element.style.left=y+"px";
+        element.style.top=x+"px";
+        document.body.append(element);
+        moveCircle(element,x);
+
+
+
+    }
+    createLine()
+
+    function moveCircle(circle,startX){
+        var direction=1;
+        var speed =2;
+        function animate(){
+// if (moving) {
+    var currentX = parseInt(circle.style.left);
+    if (currentX + 50 >= window.innerWidth || currentX <= 0) {
+        direction *= -1;
+
+    }
+    circle.style.left = (currentX + (direction * speed)) + "px"
+            var lines=document.querySelectorAll(".line")
+            lines.forEach(function (line){
+                var lineY=parseInt(line.style.left)
+                if (currentX + 25 >= lineY && currentX <= lineY + 5) {
+                    circle.remove();
+                    if (circle.length===0){
+                        return;
+                    }
+                    counter++;
+                    score.innerText=counter;
+                }
+            })
+            requestAnimationFrame(animate);
+}
+
+    //     }
+    //     setInterval(()=>{
+    //         moving = !moving;
+    //
+    //     },5000)
+        requestAnimationFrame(animate);
+    }
+
+    function moveCircle2(circle,startY){
+        var direction=1;
+        var speed=2;
+        function animate(){
+
+        var currentY=parseInt(circle.style.top)
+        if (currentY+50>=window.innerHeight||currentY<=0){
+        direction*=-1;
+        }
+
+        circle.style.top=(currentY+(direction*speed))+"px";
+
+        var lines=document.querySelectorAll(".line")
+            lines.forEach(function (line){
+                var lineY=parseInt(line.style.left)
+                if (currentY + 25 >= lineY && currentY <= lineY + 5) {
+                    circle.remove();
+                }
+            })
+        requestAnimationFrame(animate)
+
+
+        }
+        requestAnimationFrame(animate)
+    }
+
+
+function createLine(){
+        for (let i=0;i<3;i++){
+            let line=document.createElement("div")
+
+
+            line.className="line"
+            var x=Math.random()*window.innerWidth
+            line.style.left=x+"px";
+            line.style.height=window.innerHeight +"px";
+            document.body.append(line)
+        }
+}
+    function removeCircle(){
+        let circle=document.querySelectorAll(".circle")
+        let line=document.querySelectorAll(".line")
+        line.forEach(function (line){
+            circle.forEach(function (circle){
+                let cordinateY=line.style.left
+                let cordinateX=line.style.top
+                let corY=circle.style.left;
+                let corX=circle.style.top;
+                if (cordinateY==corY&&cordinateX==corX){
+                    circle.remove();
+                }
+            })
+        })
+    }
+</script>
+</body>
+</html>

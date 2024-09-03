@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        #square{
+            background-color: darkgray;
+            width: 800px;
+            height: 600px;
+
+        }
+        #container{
+            display: flex;
+            justify-content: center;
+
+        }
+        .circle{
+            width:50px;
+            height:50px;
+            border-radius: 50%;
+            background-color: blue;
+            position: absolute;
+
+        }
+        #box{
+            width: 100px;
+            height: 100px;
+            background-color: lightgreen;
+            position: absolute;
+
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+
+    <div id="square"></div>
+</div>
+<div id="box"></div>
+<script>
+    let points=0;
+    circlesGen()
+    let square=document.getElementById("square")
+    let container=document.getElementById("container")
+    let rec3=square.getBoundingClientRect(square)
+
+    let cordinate=container.offsetWidth
+    let sqCord=parseInt(square.style.width)
+    function circlesGen(){
+        setInterval(()=>{
+            let circle=document.createElement("div")
+             circle.classList.add("circle")
+console.log("fdsfsd")
+            circle.style.top=0+"px"
+            circle.style.left = getRandomNumber(parseInt(rec3.left),parseInt(rec3.right))+ "px";
+
+            square.append(circle)
+            container.append(square)
+            document.body.append(container)
+            anime({
+                targets:circle,
+                top:700,
+                duration:1000,
+                easing:"linear",
+                complete:function (){
+                    let box=document.getElementById("box")
+                    let rec=box.getBoundingClientRect(box)
+
+                    let boxLeft=rec.left
+                    let boxRight=rec.right
+
+                   let rec2=circle.getBoundingClientRect(circle)
+
+                    if (parseInt(rec2.left)>boxLeft && parseInt(rec2.right)<boxRight){
+                        points++
+                        console.log(points)
+                    }
+                      circle.remove()
+                }
+            })
+        },3000)
+    }
+
+// let box=document.getElementById("box")
+//         box.addEventListener("mousemove",function (event){
+//            let cordinateY=parseInt(box.style.top)+5
+//             box.style.top=cordinateY+"px"
+//             document.body.append(box)
+//
+//         })
+let box=document.getElementById("box")
+    document.addEventListener("mousemove",function (event){
+              box.style.left=event.clientX+"px"
+        box.style.top=600+"px"
+    })
+    function getRandomNumber(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+</script>
+</body>
+</html>

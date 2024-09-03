@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avoid the Blocks Game</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        canvas {
+            border: 1px solid black;
+            background-color: #e0e0e0;
+        }
+        #score {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<canvas id="gameCanvas" width="800" height="600"></canvas>
+<div id="score">Score: 0</div>
+<script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const scoreElement = document.getElementById('score');
+
+    const PLAYER_SIZE = 50;
+    const BLOCK_SIZE = 50;
+    const BLOCK_SPEED = 5;
+    const BLOCK_INTERVAL = 2000; // in milliseconds
+
+    let playerX = canvas.width / 2 - PLAYER_SIZE / 2;
+    let playerY = canvas.height - PLAYER_SIZE - 10;
+    let blocks = [];
+    let score = 0;
+    let isGameOver = false;
+
+    function drawPlayer() {
+        ctx.fillStyle = 'blue';
+        ctx.fillRect(playerX, playerY, PLAYER_SIZE, PLAYER_SIZE);
+    }
+
+    function drawBlocks() {
+        ctx.fillStyle = 'red';
+        blocks.forEach(block => {
+            ctx.fillRect(block.x, block.y, BLOCK_SIZE, BLOCK_SIZE);
+        });
+    }
+
+    function updateBlocks() {
+        blocks.forEach(block => {
+            block.y += BLOCK_SPEED;
+        });
+
+        blocks = blocks.filter(block => block.y < canvas.height);
+
+        // Check for collisions
+        blocks.forEach(block => {
+            if (playerX < block.x + BLOCK_SIZE &&
+                playerX + PLAYER_SIZE > block.x &&
+                playerY < block.y + BLOCK_SIZE &&
+                playerY + PLAYER_SIZE > block.y) {
+                isGameOver = true;
+            }
+        });
+    }
+
+    function createBlock() {
+        const x = Math.random() * (canvas.width - BLOCK_SIZE);
+        blocks.push({ x, y: -BLOCK_SIZE });
+    }
+
+    function updateScore() {
+        scoreElement.textContent = `Score: ${score}`;
+    }
+
+    function handleKeyDown(event) {
+        const key = event.key;
+        if (key === 'ArrowLeft' && playerX > 0) {
+            playerX -= 10;
+        } else if (key === 'ArrowRight' && playerX < canvas.width - PLAYER_SIZE) {
+            playerX += 10;
+        }
+    }
+
+    function gameLoop() {
+        if (isGameOver) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'black';
+            ctx.font = '30px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('Game Over!', canvas.width / 2, canvas.height / 2);
+            ctx.fillText(`Final Score: ${score}`, canvas.width / 2, canvas.height / 2 + 40);
+            return;
+        }
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawPlayer();
+        drawBlocks();
+        updateBlocks();
+        updateScore();
+
+        // Create new block
+        if (Math.random() < 0.02) { // 2% chance of creating a new block each frame
+            createBlock();
+        }
+
+        score++;
+        requestAnimationFrame(gameLoop);
+    }
+
+    document.addEventListener('keydown', handleKeyDown);
+    setInterval(() => {
+        if (!isGameOver) {
+            score++;
+        }
+    }, 1000);
+
+    gameLoop();
+</script>
+</body>
+</html>

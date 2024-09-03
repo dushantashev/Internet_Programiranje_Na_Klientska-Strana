@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        tr{
+            border: 5px solid black;
+        }
+        td{
+            border-width: 0px;
+        }
+        label{
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+<label>Ime i Prezime<input type="text" id="nameAndSurname"></label>
+<label>Oznaka za letalo<input type="text" id="oznakaZaLet"></label>
+<label>Kordinati na let<input type="text" id="kordinati"></label>
+<label>Radius na let<input type="text" id="radius"></label>
+<label>Visina na let<input type="text" id="visina"></label>
+<label>Tip na letalo
+    <select id="select">
+        <option>Edrilica</option>
+        <option>Dron</option>
+    </select>
+</label>
+<label><input id="najavi" type="button" value="Najavi"></label>
+<h3>Registriani letovi</h3>
+
+<p id="vkupno">Vkupno letovi</p>
+<!--<ul id="tabela">-->
+<!--    <li>Dule</li>-->
+<!--    <li>Dule</li>-->
+<!--    <li>Dule</li>-->
+<!--</ul>-->
+<table id="table">
+   <tbody>
+
+   </tbody>
+</table>
+<p id="vkupnoo">Vkupno najaveni letovi: </p>
+<script>
+    let listaNaOznaki=[1111,2222,3333,4444,5555,6666,7777,8888,9999];
+let vkupnoo=document.getElementById("vkupnoo");
+let najavi=document.getElementById("najavi")
+let counter=0;
+    let tabela=document.getElementById("table");
+najavi.addEventListener("click",function () {
+    let ime=document.getElementById("nameAndSurname").value;
+    let oznaka=document.getElementById("oznakaZaLet").value
+    let kordinati=document.getElementById("kordinati").value;
+    let radius=document.getElementById("radius").value;
+    let visina=document.getElementById("visina").value;
+    let tipNaLetalo=document.getElementById("select").value;
+
+    let deloviOdOznaka=oznaka.split("-")
+    console.log(deloviOdOznaka[2]);
+
+    if (parseInt(deloviOdOznaka[2])<1000||deloviOdOznaka>=10000){
+       alert("ne soodvetna oznaka")
+        return;
+    }
+    if (!listaNaOznaki.includes(parseInt(deloviOdOznaka[2]))){
+    if (parseInt(radius)>501){
+        alert("Radius na visinata ne e soodveten")
+        return;
+    }
+    if (parseInt(visina)>150){
+        alert("visinata ne e soodvetna");
+        return;
+    }}
+
+const button=document.createElement("button");
+    button.textContent="Potvrdi";
+
+   let row=document.createElement("tr")
+    let cell1=document.createElement("td");
+   let cell2=document.createElement("td");
+   let cell3=document.createElement("td");
+   let cell4=document.createElement("td");
+   let cell5=document.createElement("td");
+   let cell6=document.createElement("td");
+   let cell7=document.createElement("td");
+   cell1.innerText=ime;
+   cell2.innerText=oznaka;
+   cell3.innerText=radius;
+   cell4.innerText=visina;
+   cell6.innerText=tipNaLetalo;
+   cell5=document.createElement("button");
+   cell5.textContent="Potvrdi"
+    cell7=document.createElement("button");
+   cell7.textContent="Otkazi";
+cell5.addEventListener("click",(element)=>{
+
+var currentRow=element.target.parentNode.parentNode;
+    currentRow.style.backgroundColor="green";
+
+})
+
+    cell7.addEventListener("click",(element)=>{
+        row.remove();
+        counter--;
+        vkupnoo.innerText="Vkupno aktivni letovi: "+counter;
+    })
+    row.append(cell1);
+    row.append(cell2);
+    row.append(cell3);
+    row.append(cell4);
+    row.append(cell6);
+    row.append(cell5);
+    row.append(cell7);
+
+
+counter++;
+    if (tipNaLetalo!="Dron")
+        row.style.border="3px solid black"
+    if (tipNaLetalo=="Dron" && visina==radius){
+       row.style.border="3px solid black"
+    }
+tabela.append(row);
+vkupnoo.innerText="Vkupno aktivni letovi: "+counter;
+    // button.addEventListener("click",()=>{
+    //     console.log("kjsdkfsd")
+    // })
+//     let li=document.createElement("li");
+//     li.innerText=`${ime} ${oznaka} Radius: ${radius} Visina: ${visina} ${tipNaLetalo}`
+// tabela.append(li);
+
+})
+</script>
+</body>
+</html>

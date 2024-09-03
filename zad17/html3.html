@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .circle {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            border-radius: 50%;
+            background-color: blueviolet;
+        }
+        #line {
+            position: absolute;
+            border: 1px solid black;
+            width: 100%;
+            display: none;
+        }
+        #square {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            background-color: lightgreen;
+            left: 400px;
+            top: 400px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="line"></div>
+<div id="square"></div>
+<script>
+    let balls = [];
+    let square = document.getElementById("square");
+
+    createElement();
+
+    function createElement() {
+        for (let i = 0; i < 8; i++) {
+            let circle = document.createElement("div");
+            circle.classList.add("circle");
+            circle.style.top = Math.random() * 800 + "px";
+            circle.style.left = Math.random() * 800 + "px";
+            movingBalls(circle);
+            balls.push({element: circle});
+            document.body.append(circle);
+        }
+    }
+
+    function movingBalls(circle) {
+        let directionX = 1;
+        let directionY = 1;
+
+        setInterval(() => {
+            let cordinateX = parseInt(circle.style.top);
+            let cordinateY = parseInt(circle.style.left);
+
+            if (cordinateX > 800 || cordinateX < 0) {
+                directionX *= -1;
+            }
+
+            if (cordinateY > 800 || cordinateY < 0) {
+                directionY *= -1;
+            }
+
+            circle.style.top = (cordinateX + directionX * 5) + "px";
+            circle.style.left = (cordinateY + directionY * 5) + "px";
+        }, 25);
+    }
+
+    function squareBackground() {
+        let squareCordinateX = parseInt(square.style.top);
+        let squareCordinateY = parseInt(square.style.left);
+setTimeout(()=>{
+    balls.forEach((ball) => {
+        let cordinateBallX = parseInt(ball.element.style.top);
+        let cordinateBallY = parseInt(ball.element.style.left);
+
+        // Проверка дали топката е во рамките на квадратот
+        if (cordinateBallX >= squareCordinateX && cordinateBallX <= squareCordinateX + 100 &&
+            cordinateBallY >= squareCordinateY && cordinateBallY <= squareCordinateY + 100) {
+            ball.style.background="red"
+
+
+        }
+    });
+},1500)
+
+    }
+
+    function stopAnimation() {
+        let line = document.getElementById("line");
+        line.style.top = 400 + "px";
+        line.style.left = 0 + "px";
+        line.style.display = "block";
+
+        setTimeout(() => {
+            line.style.display = "none";
+
+            balls = balls.filter((ball) => {
+                let cordinateX = parseInt(ball.element.style.top);
+                if (cordinateX < 400) {
+                    ball.element.remove();
+                    return false;
+                }
+                return true;
+            });
+        }, 1500);
+    }
+
+    setInterval(() => {
+        stopAnimation();
+
+    }, 3000);
+
+</script>
+</body>
+</html>

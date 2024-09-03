@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<style>
+    #square{
+        width: 500px;
+        height: 500px;
+        position: relative;
+         background: lightgrey;
+    }
+    #container{
+        display: flex;
+        justify-content: center;
+    }
+    #line{
+        position: absolute;
+     height: 100%;
+        border: 1px solid black;
+        display: none;
+    }
+
+</style>
+</head>
+
+<body>
+<div  id="container">
+    <div id="square">
+        <div id="line"></div>
+    </div>
+    <p id="score">Score: 0</p>
+</div>
+<script>
+    let squares=[]
+    let score=0;
+    let squareContainer=document.getElementById("square");
+    squaresGenerator()
+    function squaresGenerator(){}
+    for (let i=0;i<8;i++){
+        let newSquare=document.createElement("div");
+        newSquare.style.width=50+"px";
+        newSquare.style.height=50+"px";
+        newSquare.style.position="absolute";
+        newSquare.style.top=Math.floor(Math.random()*(squareContainer.offsetWidth-newSquare.clientWidth-50))+"px"
+        newSquare.style.left=Math.floor(Math.random()*(squareContainer.offsetWidth-newSquare.clientWidth-50))+"px"
+        newSquare.style.background="red";
+
+    squareContainer.appendChild(newSquare)
+        squares.push({element:newSquare})
+        moveElement(newSquare)
+    }
+    function moveElement(squareT){
+        let direction=1
+        setInterval(()=> {
+        let y=parseInt(squareT.style.left)
+            if (y>450 || y<=0){
+                direction*=-1
+            }
+
+            squareT.style.left=(y+direction*5)+"px"
+
+
+        },50)
+    }
+    let scoreTable=document.getElementById("score")
+    function stopAnimation(){
+        let line=document.getElementById("line")
+        let cutOff=Math.floor(Math.random()*(squareContainer.offsetWidth-50))
+        line.style.left=cutOff+"px"
+        line.style.display="block";
+        setTimeout(()=>{
+            line.style.display="none"
+            squares=squares.filter((square)=>{
+                let current=parseInt(square.element.style.left);
+
+                if (current<=cutOff){
+                    score+=10
+                    square.element.remove();
+                    scoreTable.innerText="Score: "+score
+                    return false
+                }
+                return true
+            })
+        },1500)
+
+    }
+    setInterval(stopAnimation,3000)
+</script>
+</body>
+</html>
